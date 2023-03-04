@@ -44,9 +44,13 @@ public class UserService {
     }
 
     public User update(Long id, User updatedUser) {
-        User currentUser = userRepository.getReferenceById(id);
-        updateData(currentUser, updatedUser);
-        return userRepository.save(currentUser);
+        try {
+            User currentUser = userRepository.getReferenceById(id);
+            updateData(currentUser, updatedUser);
+            return userRepository.save(currentUser);
+        } catch (Exception exception) {
+            throw  new ResourceNotFoundException(id);
+        }
     }
 
     public void updateData(User currentUser, User updatedUser) {
